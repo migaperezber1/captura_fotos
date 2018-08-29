@@ -67,14 +67,14 @@ cv2.namedWindow('img')
 cv2.setMouseCallback('img',button_actions)
 
 #botones y textos
-cv2.rectangle(re_fondo, (630,10), (690, 50), (200, 0, 30), -2)
-cv2.putText(re_fondo, "Documento", (640,30), cv2.FONT_HERSHEY_PLAIN, 0.6, (0, 0, 0), 0)
+cv2.rectangle(re_fondo, (630,10), (690, 50), (20, 0, 150), -2)
+cv2.putText(re_fondo, "Documento", (631,30), cv2.FONT_HERSHEY_DUPLEX, 0.33, (0, 0, 0), 0)
 
-cv2.rectangle(re_fondo, (630,70), (690, 110), (200, 0, 30), -2)
-cv2.putText(re_fondo, "Foto", (640,90), cv2.FONT_HERSHEY_PLAIN, 0.6, (0, 0, 0), 0)
+cv2.rectangle(re_fondo, (630,70), (690, 110), (20, 0, 150), -2)
+cv2.putText(re_fondo, "Foto", (640,90), cv2.FONT_HERSHEY_DUPLEX, 0.6, (0, 0, 0), 0)
 
-cv2.rectangle(re_fondo, (630,130), (690, 170), (200, 0, 30), -2)
-cv2.putText(re_fondo, "limpiar", (640,150), cv2.FONT_HERSHEY_PLAIN, 0.6, (0, 0, 0), 0)
+cv2.rectangle(re_fondo, (630,130), (690, 170), (20, 0, 150), -2)
+cv2.putText(re_fondo, "limpiar", (631,150), cv2.FONT_HERSHEY_DUPLEX, 0.53, (0, 0, 0), 0)
 
 
 while True:
