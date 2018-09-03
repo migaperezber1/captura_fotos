@@ -12,14 +12,27 @@ video_capture1 = cv2.VideoCapture(0) #selfie
 video_capture2 = cv2.VideoCapture(1) #documento
 fondo = cv2.imread('davivienda.jpg',1)
 bot=cv2.imread('boton.jpg',1)
+log=cv2.imread('logo.jpg',1)
+logo=cv2.resize(log,(130,50))
 boton=cv2.resize(bot,(100,60))
 re_fondo= cv2.resize(fondo, (700, 630))
 fondo_copy= cv2.resize(fondo, (700, 630))
 #face_recort = gray1[y:y+h, x:x+w]
 def button_actions(event,x,y,flags,param):
 	if (event == cv2.EVENT_LBUTTONDOWN and x>430 and x<530 and y>400 and y<455): #captura para documento
-		ret, foto1 =video_capture2.read()
-		re_foto1= cv2.resize (foto1, (300, 300))
+		rostro= False
+		fotos=0		
+		while (rostro == False):
+			ret, foto1 =video_capture2.read()
+			re_foto1= cv2.resize (foto1, (300, 300))
+			faces, eyes=detect_face(re_foto1)
+			fotos+=1
+			if(fotos>50):
+				break
+			if (faces is not None):
+				rostro = True
+				draw_rectangle(re_foto1, faces[0])
+				break
 		re_fondo[320:620, 5:305]=re_foto1
 
 	if (event == cv2.EVENT_LBUTTONDOWN and x>430 and x<530 and y>470 and y<520): #captura para camara
@@ -51,8 +64,8 @@ def detect_face(img):
 	
     #let's detect multiscale (some images may be closer to camera than others) images
     #result is a list of faces
-	faces = face_cascade.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=4);
-	eyes = eye_cascade.detectMultiScale(gray, scaleFactor=1.1, minNeighbors=5);
+	faces = face_cascade.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=5);
+	eyes = eye_cascade.detectMultiScale(gray, scaleFactor=1.3, minNeighbors=6);
 	if(len(faces)==0):
 		return None, None
 	elif (len(eyes)==0):
@@ -61,12 +74,14 @@ def detect_face(img):
 
 def draw_rectangle(img, rect,):
     (x, y, w, h) = rect
-    cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 100), 2)
+    cv2.rectangle(img, (x, y), (x+w, y+h), (1,220,255), 2)
 		
 img=re_fondo
 cv2.namedWindow('img')
 cv2.setMouseCallback('img',button_actions)
 
+
+re_fondo[350:400, 390:520]=logo
 #botones y textos
 
 re_fondo[400:460, 430:530]=boton
@@ -86,9 +101,6 @@ while True:
 	faces, eyes = detect_face(re_live)
 	if (faces is not None):
 		draw_rectangle(re_live, faces[0])
-	if (eyes is not None):
-			for eye in eyes:
-				draw_rectangle(re_live, eye)
 	re_fondo[5:305, 315:615]=re_live
 	
 	cv2.imshow('img',re_fondo )  
